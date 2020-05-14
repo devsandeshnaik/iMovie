@@ -7,7 +7,7 @@
 //
 
 import Foundation
-struct Movie: Codable,Hashable {
+struct Movie: Codable,Hashable, Identifiable {
     private(set) var id: Int
     private(set) var title: String
     private(set) var overview: String
@@ -31,4 +31,25 @@ struct Movie: Codable,Hashable {
         return lhs.id == rhs.id
     }
     
+}
+
+
+extension Movie {
+    //MARK:- For SwiftUI
+    static func getMovies() -> [Movie] {
+        
+        // Reading content of JSON file
+        guard let jsonFileURL = Bundle.main.url(forResource: "movies.json", withExtension: nil) else {
+            fatalError("Unable to locate file movies.json")
+        }
+        
+        guard let data =  try? Data(contentsOf: jsonFileURL) else {
+            fatalError("Unable to load data from movies.json")
+        }
+        
+        let decoder = JSONDecoder()
+        guard let movies = try? decoder.decode([Movie].self, from: data) else { return [] }
+        return movies
+        
+    }
 }
