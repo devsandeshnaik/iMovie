@@ -19,11 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //MARK:-  UIkit
         window?.rootViewController = HomeTabBarController()
         window?.makeKeyAndVisible()
-        
-        //MARK:- SwiftUI
-//        window?.rootViewController = UIHostingController(rootView: TabBarView())
-//        window?.makeKeyAndVisible()
-        
     }
 
 }
