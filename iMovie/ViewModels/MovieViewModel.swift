@@ -33,7 +33,7 @@ class MovieViewModel: Hashable {
     
     func getImage() {
         if moviePosterData != nil {
-            let image = UIImage(data: moviePosterData!)!
+            guard let image = UIImage(data: moviePosterData!) else { fetchImage(); return}
             delegate?.didReceived(image, named: movie.poster_path!)
         } else {
             fetchImage()
@@ -41,7 +41,7 @@ class MovieViewModel: Hashable {
     }
     
     private func fetchImage() {
-        ImageRequest.make(posterImage) { data in
+        ApiRequset.shared.getMediaImage(named: posterImage) { data in
             if data != nil {
                 DispatchQueue.main.async {
                     self.moviePosterData = data

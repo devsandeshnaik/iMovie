@@ -28,6 +28,8 @@
 		0268F21E246C473C0015A5A9 /* MovieDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0268F21D246C473C0015A5A9 /* MovieDetailVC.swift */; };
 		0268F220246C78BA0015A5A9 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0268F21F246C78BA0015A5A9 /* Calendar+Extension.swift */; };
 		026F3120246D3C9E00BA7A78 /* movies.json in Resources */ = {isa = PBXBuildFile; fileRef = 026F311F246D3C9E00BA7A78 /* movies.json */; };
+		43A7B3FB2821AA3C0026DB28 /* UIColor+Extesion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A7B3FA2821AA3C0026DB28 /* UIColor+Extesion.swift */; };
+		43DF534828CDFF71005F84E5 /* TestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF534728CDFF71005F84E5 /* TestCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		0268F21D246C473C0015A5A9 /* MovieDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailVC.swift; sourceTree = "<group>"; };
 		0268F21F246C78BA0015A5A9 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		026F311F246D3C9E00BA7A78 /* movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movies.json; sourceTree = "<group>"; };
+		43A7B3FA2821AA3C0026DB28 /* UIColor+Extesion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extesion.swift"; sourceTree = "<group>"; };
+		43DF534728CDFF71005F84E5 /* TestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,13 +91,11 @@
 			isa = PBXGroup;
 			children = (
 				020B7A75246969A00092B567 /* Application Files */,
-				020B7A8024696F9A0092B567 /* CollectionViewCell */,
 				020B7A842469713E0092B567 /* Extension */,
 				020B7A6D246960F50092B567 /* Info.plist */,
 				020B7A7D24696AD30092B567 /* Modals */,
 				02461E582469BA2C00A847AE /* Networking */,
 				020B7A76246969AC0092B567 /* Resources */,
-				020B7A77246969C00092B567 /* Storyboards */,
 				020B7A7A24696A000092B567 /* ViewModels */,
 				020B7A78246969D70092B567 /* Views */,
 				026F311F246D3C9E00BA7A78 /* movies.json */,
@@ -131,6 +133,8 @@
 		020B7A78246969D70092B567 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				020B7A77246969C00092B567 /* Storyboards */,
+				020B7A8024696F9A0092B567 /* CollectionViewCell */,
 				020B7A63246960F40092B567 /* MovieListVC.swift */,
 				020B7A73246964A10092B567 /* HomeTabBarController.swift */,
 				0268F21D246C473C0015A5A9 /* MovieDetailVC.swift */,
@@ -160,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				020B7A8124696FC00092B567 /* MovieCell.swift */,
+				43DF534728CDFF71005F84E5 /* TestCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -169,6 +174,7 @@
 			children = (
 				020B7A85246971570092B567 /* UIView+Extension.swift */,
 				0268F21F246C78BA0015A5A9 /* Calendar+Extension.swift */,
+				43A7B3FA2821AA3C0026DB28 /* UIColor+Extesion.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -260,6 +266,7 @@
 				020B7A8224696FC00092B567 /* MovieCell.swift in Sources */,
 				020B7A64246960F40092B567 /* MovieListVC.swift in Sources */,
 				0208FC7C246ADB08003FB55F /* ApiResponse.swift in Sources */,
+				43A7B3FB2821AA3C0026DB28 /* UIColor+Extesion.swift in Sources */,
 				0268F220246C78BA0015A5A9 /* Calendar+Extension.swift in Sources */,
 				02461E5A2469BA5D00A847AE /* NowPlayingRequest.swift in Sources */,
 				020B7A86246971570092B567 /* UIView+Extension.swift in Sources */,
@@ -273,6 +280,7 @@
 				020B7A7C24696A390092B567 /* MovieListViewModel.swift in Sources */,
 				020B7A62246960F40092B567 /* SceneDelegate.swift in Sources */,
 				02461E5C2469BADD00A847AE /* Constants.swift in Sources */,
+				43DF534828CDFF71005F84E5 /* TestCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

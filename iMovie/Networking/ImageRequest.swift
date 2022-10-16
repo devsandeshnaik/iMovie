@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct ImageRequest {
-    static func make(_ imageNmae: String, handler: @escaping (Data?) -> ()) {
-        ApiRequset.shared.make(NetworkConstants.imageURl + imageNmae) { data, response, error in
-            handler(data)
-        }
-       
-    }
-}
+//struct ImageRequest {
+//    static func make(_ imageNmae: String, handler: @escaping (Data?) -> ()) {
+//        ApiRequset.shared.make(NetworkConstants.imageURl + imageNmae) { data, response, error in
+//            handler(data)
+//        }
+//       
+//    }
+//}

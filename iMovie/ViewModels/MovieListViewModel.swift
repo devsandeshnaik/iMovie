@@ -22,8 +22,13 @@ class MovieListViewModel {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, MovieViewModel>
     typealias SnapShot = NSDiffableDataSourceSnapshot<Section,MovieViewModel>
     
-    enum Section: CaseIterable {
-        case main
+    //raw value represents index
+    enum Section: Int, CaseIterable {
+        case trending = 0
+        case nowPlaying = 1
+        case topRated = 2
+        case popular = 3
+        case upcoming = 4
     }
     
     //MARK: View model
@@ -33,7 +38,7 @@ class MovieListViewModel {
     }
     
     //MARK:- Private Vars
-    private var movies: [MovieViewModel]! {
+    private var movies: [[MovieViewModel]] {
         didSet {
             applyMovieSnapShot()
         }
@@ -48,35 +53,56 @@ class MovieListViewModel {
     //initializer
     init(type: MovieType) {
         self.moviesTypes = type
-        switch type {
-            case .nowPlaying: fetchNowPlayingMovies()
-            case .topRated: fetchTopRatedMovies()
-        }
+        //TODO: - update logic to keep movies array as empty and the fill it as data comes
+        self.movies = [[],[],[],[],[]]
+        fetchMovieFor(section: .trending)
+        fetchMovieFor(section: .nowPlaying)
+        fetchMovieFor(section: .topRated)
+        fetchMovieFor(section: .popular)
+        fetchMovieFor(section: .upcoming)
     }
     
     //MARK:- Private Methods
-    private func fetchNowPlayingMovies() {
-        NowPlayingRequest.make { movies in
-            DispatchQueue.main.async {
-                self.movies = []
-                self.movies =  movies.map { MovieViewModel(movie: $0) }
+    
+    private func fetchMovieFor(section: Section) {
+        switch section {
+        case .trending:
+            ApiRequset.shared.getMovie(api: .trending(.movie, .week)) { [weak self] movies in
+                self?.update(movies, for: .trending)
+            }
+        case .nowPlaying:
+            ApiRequset.shared.getMovie(api: .nowPlaying) { [weak self] movies in
+                self?.update(movies, for: .nowPlaying)
+            }
+        case .topRated:
+            ApiRequset.shared.getMovie(api: .topRated) { [weak self] movies in
+                self?.update(movies, for: .topRated)
+            }
+        case .popular:
+            ApiRequset.shared.getMovie(api: .popular) { [weak self] movies in
+                self?.update(movies, for: .popular)
+            }
+        case .upcoming:
+            ApiRequset.shared.getMovie(api: .upcoming) { [weak self] movies in
+                self?.update(movies, for: .upcoming)
             }
         }
     }
     
-    private func fetchTopRatedMovies() {
-        TopRatedMovieRequest.make { movies in
-            DispatchQueue.main.async {
-                self.movies = []
-                self.movies =  movies.map { MovieViewModel(movie: $0) }
-            }
-        }
+    private func update(_ movies: [Movie], for section: Section) {
+        let movieModels = movies.map { MovieViewModel(movie: $0) }
+        self.movies.insert(movieModels, at: section.rawValue)
     }
-    
+
     private func applyMovieSnapShot() {
         var snapShot = SnapShot()
-        snapShot.appendSections([.main])
-        snapShot.appendItems(movies)
+    snapShot.appendSections([.trending, .nowPlaying, .topRated, .popular, .upcoming])
+        snapShot.appendItems(movies[Section.trending.rawValue], toSection: .trending)
+        snapShot.appendItems(movies[Section.nowPlaying.rawValue], toSection: .nowPlaying)
+        snapShot.appendItems(movies[Section.topRated.rawValue], toSection: .topRated)
+        snapShot.appendItems(movies[Section.popular.rawValue], toSection: .popular)
+        snapShot.appendItems(movies[Section.upcoming.rawValue], toSection: .upcoming)
+
         movieDataSorce?.apply(snapShot, animatingDifferences: true)
     }
     
@@ -87,29 +113,29 @@ class MovieListViewModel {
                 return nil
             }
             cell.movie = movieModel
-            cell.delegate = self
             return cell
         }
         return movieDataSorce
     }
     
     func filterMovies(_ title: String) {
-        var filteredMovies = [MovieViewModel]()
-        if title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            filteredMovies = movies
-        } else {
-            filteredMovies = movies.filter { $0.title.contains(title)}
-        }
-        
-        var newSnapShot = SnapShot()
-        newSnapShot.appendSections([.main])
-        newSnapShot.appendItems(filteredMovies)
-        movieDataSorce.apply(newSnapShot, animatingDifferences: true)
+//        var filteredMovies = [MovieViewModel]()
+//        if title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+//            filteredMovies = movies
+//        } else {
+//            filteredMovies = movies.filter { $0.title.contains(title)}
+//        }
+//
+//        var newSnapShot = SnapShot()
+//        newSnapShot.appendSections([.main,.secondary])
+//        newSnapShot.appendItems(filteredMovies,toSection: .main)
+//        newSnapShot.appendItems(filteredMovies,toSection: .secondary)
+//        movieDataSorce.apply(newSnapShot, animatingDifferences: true)
         
     }
     
     func viewWillAppear() {
-        if movies != nil {
+        if !movies.isEmpty {
            applyMovieSnapShot()
         }
     }
@@ -139,8 +165,8 @@ class MovieListViewModel {
 
 extension MovieListViewModel : MovieCellDelegate {
     func delete(_ movie: MovieViewModel) {
-        guard let index = movies.firstIndex(of: movie) else { return }
-        movies.remove(at: index)
-        applyMovieSnapShot()
+//        guard let index = movies.firstIndex(of: movie) else { return }
+//        movies.remove(at: index)
+//        applyMovieSnapShot()
     }
 }

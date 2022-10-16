@@ -30,6 +30,7 @@ class MovieListVC: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         model.viewWillAppear()
+        view.backgroundColor = .appBackground
     }
     
     //MARK:- Private methods
@@ -54,21 +55,37 @@ class MovieListVC: UICollectionViewController {
     
     private func setupCollectioncView() {
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.IDENTIFIER)
-        collectionView.backgroundColor = UIColor(named: "background")!
+        collectionView.backgroundColor = .appBackground
         collectionView.collectionViewLayout = collectionViewLayout()
         collectionView.dataSource =  model.setDataSourceFor(collectionView)
     }
     
     private func collectionViewLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: traitCollection.horizontalSizeClass == .compact ?  .fractionalWidth(1.0) : .fractionalWidth(0.5),
-            heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(150))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        let section = NSCollectionLayoutSection(group: group)
-        return UICollectionViewCompositionalLayout(section: section)
+        return UICollectionViewCompositionalLayout { [weak self] section, env in
+            if section == 0 {
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: self?.traitCollection.horizontalSizeClass == .compact ?  .fractionalWidth(1.0) : .fractionalWidth(0.5),
+                    heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(150))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .paging
+                return section
+            } else {
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: self?.traitCollection.horizontalSizeClass == .compact ?  .fractionalWidth(1.0) : .fractionalWidth(0.5),
+                    heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.35), heightDimension: .absolute(150))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuous
+                return section
+            }
+        }
     }
     
     //MARK:- Collection view delegate
